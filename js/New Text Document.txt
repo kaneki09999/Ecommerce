@@ -1,0 +1,409 @@
+<?php 
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php';
+
+if (isset($_POST['submit'])) { 
+    $birthdate =  $_POST['year'].'-'.$_POST['month'].'-'.$_POST['day'];
+        $lastname = $_POST["lastname"];
+        $firstname = $_POST["firstname"];
+        $middlename = $_POST["middlename"];
+        $suffix = $_POST["suffix"];
+        $gender = $_POST["gender"];
+        $Birthdate = $birthdate;
+        $birthplace = $_POST["birthplace"];
+        $phonenumber = $_POST["phonenumber"];
+        $email = $_POST["email"];
+        $address = $_POST["address"];
+        $city = $_POST["city"];
+        $area = $_POST["area"];
+        $barangay = $_POST["barangay"];
+        $postcode = $_POST["postcode"];
+        $status = $_POST["status"];
+        $attainment = $_POST["attainment"];
+        $username = $_POST["username"];
+        $password = $_POST["password"];
+
+        $mail = new PHPMailer(true);
+
+        try {
+            $mail->SMTPDebug = 1;
+
+            $mail->isSMTP();
+
+            $mail->Host = "smtp.gmail.com";
+
+            $mail->SMTPAuth = true;
+
+            $mail->Username = 'tanjirowkamado@gmail.com';
+
+            $mail->Password = 'moyftskbibyqndeh';
+
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+
+            $mail->Port = 587;
+
+            $mail->setFrom('ajhayarendayen@gmail.com','Jobsync');
+
+            $mail->addAddress($email, $lastname);
+
+            $mail->isHTML(true);
+
+            $verification_code = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
+
+            $mail->Subject = 'Email Verification for Employees Registration';
+
+            $mail->Body = '<p>Your Verification code is: <b style="font-size = 30px;">' . $verification_code . '</b></p>';
+
+            $mail->send();
+
+            $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
+
+            $conn = mysqli_connect("localhost", "root", "", "jobsync");
+
+	
+            header("Location: email-verification.php?email=" . $email);
+            exit();
+        } catch (Exception $e) {
+            echo "Message could not Sent. Mailer Error: {$mail->ErrorInfo}";           
+        }
+}
+
+
+
+?>
+
+
+<?php include("include/header.php"); ?>
+    
+<div class="body1">
+    <div class="container1">
+        <div class="head">Register New Employee</div>
+        
+        <form action="" method="POST">
+            <div class="form first">
+                
+                <div class="details personal">
+                    <span class="title">Personal Information</span>
+
+                    <div class="fields">
+                        
+                        <div class="input-field">
+                            <label>Last Name:</label>
+                            <input type="text" id="lastname" name="lastname" placeholder="Enter your Last Name" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label>First Name:</label>
+                            <input type="text" id="firstname" name="firstname" placeholder="Enter your First Name" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Middle Name:</label>
+                            <input type="text" id="middlename" name="middlename"  placeholder="Enter your Middle Name" required>
+                        </div>
+
+                        <div class="input-field4">
+                            <label for="suffix">Suffix:</label>
+                            <select id="suffix" name="suffix">
+                                <option value="">Suffix (optional)</option>
+                                <option value="Jr.">Jr.</option>
+                                <option value="Sr.">Sr.</option>
+                                <option value="II">II</option>
+                                <option value="III">III</option>
+                                <option value="IV">IV</option>
+                            </select>
+                        </div>
+
+                        
+                        <div class="input-field2">
+                        <label>Sex:</label>
+                            <input type="radio" id="male" name="gender" value="Male" required>
+                            <label class="sex" for="male">Male</label>
+
+                            <input type="radio" id="female" name="gender" value="Female" required>
+                            <label class="sex" for="female">Female</label>
+                        </div>
+
+
+                        <div class="fields1">
+                        <div class="input-field1">
+                            <label>Date of Birth:</label>
+                        </div>
+                        <div class="input-field1">
+                            <label for="month"></label>
+                            <select id="month" name="month" required>
+                                <option value="" disabled selected>Month</option>
+                                <?php
+                                $mon = array('Jan' => 1 ,'Feb'=> 2,'Mar' => 3 ,'Apr'=> 4,'May' => 5 ,'Jun'=> 6,'Jul' => 7 ,'Aug'=> 8,'Sep' => 9 ,'Oct'=> 10,'Nov' => 11 ,'Dec'=> 12 );    
+                                foreach ($mon as $month => $value ) {
+                                    echo '<option value='.$value.'>'.$month.'</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="input-field1">
+                            <label for="day"></label>
+                            <select id="day" name="day" required>
+                                <option value="" disabled selected>Day</option>
+                                <?php 
+                                $d = range(1, 31);
+                                foreach ($d as $day) {
+                                    echo '<option value='.$day.'>'.$day.'</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="input-field1">
+                            <label for="year"></label>
+                            <select id="year" name="year" required>
+                                <option value="" disabled selected>Year</option>
+                                <?php 
+                                $years = range(2005, 1950);
+                                foreach ($years as $yr) {
+                                    echo '<option value='.$yr.'>'.$yr.'</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fields2">
+                    <div class="input-field6">
+                        <label for="birthplace">Place of Birth:</label>
+                        <select id="birthplace" name="birthplace" required>
+                            <option value="" disabled selected>Place of Birth</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <br><hr>
+
+                <div class="details personal">
+                    <span class="title">Contact Information</span>
+
+                    <div class="fields2">
+                        
+                        <div class="input-field3">
+                            <label>Contact No.:</label>
+                            <input type="tel"  maxlength="13" onclick="formatPhoneNumber()" id="phonenumber" name="phonenumber" placeholder="Enter your Contact No." required>
+                        </div>
+
+                        <div class="input-field3">
+                            <label>Email Address:</label>
+                            <input type="text" id="email" name="email" placeholder="Enter your Email Address" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="details personal">
+                    <span class="title">Address Information</span>
+
+                    <div class="fields">
+
+                        <div class="input-field7">
+                            <label>Address:</label>
+                            <input type="text" id="address" name="address" placeholder="Enter your Address" required>
+                        </div>
+
+                        <div class="input-field9">
+                            <label for="city">City:</label>
+                             <select name="city" id="city" onchange="populateAreas()" required>
+                                <option value="" disabled selected>Select your City</option>
+                                <option value="Caloocan">Caloocan City</option>
+                                <option value="Quezon">Quezon City</option>
+                                <option value="Manila">Manila</option>
+                                <option value="Binondo">Binondo</option>
+                            </select>
+                        </div>
+
+                        <div class="input-field9 hidden" id="areaContainer">
+                            <label for="area">Area:</label>
+                            <select name="area" id="area" onchange="populateBarangays()" required>
+                        </select>
+                        </div>
+                    </div>
+                </div>
+
+                    <div class="fields2">             
+                    <div class="input-field6 hidden" id="barangayContainer">
+                        <label for="barangay">Barangay:</label>
+                        <select id="barangay" name="barangay" required>
+                        </select>
+                    </div>
+                        <div class="input-field3">
+                            <label>Postcode:</label>
+                            <input type="text" id="postcode" name="postcode" placeholder="Enter your Postcode" required>
+                        </div>
+                    </div>  
+                <div class="details personal">
+                    <span class="title">Additional Information</span>
+
+                    <div class="fields2">
+                    <div class="input-field6">
+                            <label for="status">Civil Status:</label>
+                            <select id="status" name="status" required>
+                                <option value="" disabled selected>Select Civil Status</option>
+                                <option value="Single">Single</option>
+                                <option value="Married">Married</option>
+                                <option value="Widowed">Widowed</option>
+                            </select>
+                        </div>
+
+                        <div class="input-field5">
+                            <label>College Attaiment:</label>
+                            <input type="text" id="attainment" name="attainment" placeholder="Enter your College Attaiment" required>
+                        </div>
+                    </div>
+                </div>
+                <br><hr>
+                <div class="details personal">
+                    <span class="title">Login Information</span>
+                    <div class="fields">
+                        <div class="input-field7">
+                            <label>Username:</label>
+                            <input type="text" id="username" name="username" placeholder="Username" required>
+                        </div>
+                        <div class="input-field7 password-wrapper">
+                            <label>Password:</label>
+                            <input type="password" id="password" name="password" placeholder="Password" required>
+                            <span class="toggle-password">
+                                <i class="fa-solid fa-eye" id="show-password"></i>
+                            </span>
+                        </div>
+                        <div class="input-field7 password-wrapper">
+                            <label>Confirm Password:</label>
+                            <input type="password" id="confirmpass" name="confirmpass" placeholder="Confirm Password" required>
+                            <span class="toggle-password">
+                                <i class="fa-solid fa-eye" id="show-confirm-password"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <button type="submit" id="submit" name="submit" class="submit">
+                        <span class="submitBtn">Submit</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+<script>
+    const submitButton = document.getElementById('submit');
+    const passwordField = document.getElementById('password');
+    const confirmPasswordField = document.getElementById('confirmpass');
+
+    submitButton.addEventListener('click', function(event) {
+        if (passwordField.value !== confirmPasswordField.value) {
+            event.preventDefault(); // Prevent form submission
+            alert("Passwords do not match. Please make sure your passwords match.");
+        }
+    });
+</script>
+
+<script>
+        var phoneNumberInput = document.getElementById('phonenumber');
+        var isUpdating = false;
+
+        phoneNumberInput.addEventListener('input', function(event) {
+            if (isUpdating) {
+            return;
+            }
+
+            isUpdating = true;
+
+            var inputValue = phoneNumberInput.value;
+            var numericValue = inputValue.replace(/[^\d+]/g, '');
+
+            // Add the '+' sign and country code if not already included
+            if (!numericValue.startsWith('+63')) {
+            numericValue = '+63' + numericValue.slice(1);
+            }
+
+            // Limit the length to 18 characters (including the '+', country code, and separators)
+            if (numericValue.length > 18) {
+            numericValue = numericValue.slice(0, 18);
+            }
+
+            phoneNumberInput.value = numericValue;
+            isUpdating = false;
+        });
+</script>
+
+
+<script>
+    // Array of places of birth
+    var placesOfBirth = [
+        "Alaminos", "Angeles City", "Bacolod", "Bacoor", "Bago", "Baguio", "Bais", "Balanga", "Baliwag", "Batac", "Batangas City", 
+        "Bayawan", "Baybay", "Bayugan", "Biñan", "Bislig", "Bogo", "Borongan", "Butuan", "Cabadbaran", "Cabanatuan", "Cabuyao", 
+        "Cadiz", "Cagayan de Oro", "Calaca", "Calamba", "Calapan", "Calbayog", "Caloocan City", "Candon", "Canlaon", "Carcar", 
+        "Carmona", "Catbalogan", "Cauayan", "Cavite City", "Cebu City", "Cotabato City", "Dagupan", "Danao", "Dapitan", 
+        "Dasmariñas", "Davao City", "Digos", "Dipolog", "Dumaguete", "El Salvador", "Escalante", "Gapan", "General Santos", 
+        "General Trias", "Gingoog", "Guihulngan", "Himamaylan", "Ilagan", "Iligan", "Iloilo City", "Imus", "Iriga", "Isabela", 
+        "Kabankalan", "Kidapawan", "Koronadal", "La Carlota", "Lamitan", "Laoag", "Lapu-Lapu City", "Las Piñas", "Legazpi", 
+        "Ligao", "Lipa", "Lucena", "Maasin", "Mabalacat", "Makati", "Malabon", "Malaybalay", "Malolos", "Mandaluyong", "Manila", 
+        "Marawi", "Marikina", "Masbate City", "Muñoz", "Muntinlupa", "Navotas", "Olongapo", "Ozamiz", "Pagadian", "Palayan", 
+        "Parañaque", "Pasay", "Pasig", "Puerto Princesa", "Quezon City", "Roxas", "Sagay", "Samal", "San Carlos", "San Fernando", 
+        "San Jose", "San Jose del Monte", "San Juan", "San Pablo", "San Pedro", "Santo Tomas", "Sipalay", "Surigao City", "Tacloban", 
+        "Taguig", "Tagum", "Tarlac City", "Tuguegarao", "Urdaneta", "Victorias", "Vigan", "Zamboanga City"
+    ];
+
+    // Function to populate the dropdown with places of birth
+    function populateBirthplace() {
+        var select = document.getElementById("birthplace");
+
+        // Clear existing options
+        select.innerHTML = "";
+
+        // Add default option
+        var defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Place of Birth";
+        defaultOption.disabled = true;
+        defaultOption.selected = true;
+        select.appendChild(defaultOption);
+
+        // Add options for each place of birth
+        placesOfBirth.forEach(function(place) {
+            var option = document.createElement("option");
+            option.value = place;
+            option.textContent = place;
+            select.appendChild(option);
+        });
+    }
+
+    // Call the function to populate the dropdown
+    populateBirthplace();
+</script>
+
+<script>
+const showPasswordIcons = document.querySelectorAll(".toggle-password");
+
+showPasswordIcons.forEach(icon => {
+    icon.addEventListener("click", function() {
+        const passwordField = this.previousElementSibling;
+        const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+        passwordField.setAttribute("type", type);
+        this.querySelector("i").classList.toggle("fa-eye");
+        this.querySelector("i").classList.toggle("fa-eye-slash");
+        const eyeIcon = this.querySelector("i");
+        if (eyeIcon.classList.contains("fa-eye-slash")) {
+            this.style.color = "#000"; // Set color to black when password is visible
+        } else {
+            this.style.color = "#808080"; // Set color to gray when password is hidden
+        }
+    });
+});
+
+</script>
+
+<?php include("include/footer.php"); ?>
