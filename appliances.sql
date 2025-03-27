@@ -1014,7 +1014,7 @@ DO
 --         (4, `PureSpin`, `PureSpin delivers a high-quality wash with every load. Featuring a high-speed spin cycle, this washing machine ensures that your clothes are washed thoroughly, rinsed properly, and dried faster. Experience cleaner clothes with less water and energy usage.` , `Laundry Appliances`, 3500, `washing5.jpg`),
 --         (5, `EcoRinse`, `EcoRinse is designed with sustainability in mind, offering an eco-friendly wash cycle that reduces water usage and energy consumption. This machine is perfect for environmentally conscious consumers looking to minimize their carbon footprint without compromising on cleaning power.` , `Laundry Appliances`, 3000, `washing6.jpg`);
 
-
+    
 
 
 
