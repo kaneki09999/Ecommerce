@@ -312,6 +312,7 @@
                                     </div>
                                     <div style="display: flex; align-items: center;">
                                         <label for="amount" style="color:#5A5A5A; flex: 1;">Amount Due</label>
+                                        <span style="flex: 2; color: #141414; font-weight: bold;">₱<?php echo number_format($product_price, 2); ?></span>
                                         <span id="total_ticket_price1" style="flex: 2;color:#054ce1;"></span>
                                     </div>
                                     <br>
@@ -321,7 +322,15 @@
                                     </div>
                                     <br>
                                     <div class="input-container" style="text-align: center; margin-top: 20px; color: black;">
-                                        <input type="text" id="gcash_number" name="gcash_number" placeholder="Enter Mobile Number" required pattern="[0-9]{11}" title="Please enter a valid 11-digit number" maxlength="11">
+                                       <input type="tel" 
+       id="gcash_number" 
+       name="gcash_number" 
+       placeholder="Enter Mobile Number" 
+       required 
+       pattern="[0-9]{11}" 
+       title="Please enter a valid 11-digit number" 
+       maxlength="11"
+       oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                                     </div>
                                 </form>
                                 <center><button class="btn btn-primary" style="background-color:#054ce1;" onclick="proceedToNextModal1()">Next</button></center>
@@ -359,7 +368,15 @@
                                         <div style="color: #5A5A5A; font-size: 12px;"><strong>Enter the 6-digit authentication code sent to your registered mobile number.</strong></div>
                                     </div>
                                     <div class="input-container" style="text-align: center; margin-top: 10px;">
-                                        <input type="text" id="auth_code" name="auth_code" pattern="[0-9]{6}" title="Please enter a 6-digit number" maxlength="6" required>
+                                    <input type="tel" 
+       id="auth_code" 
+       name="auth_code" 
+       pattern="[0-9]{6}" 
+       title="Please enter a 6-digit authentication code" 
+       maxlength="6" 
+       required
+       oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+       style="font: 2.5ch consolas, monospace; letter-spacing: 1ch; text-align: center; border: none; border-bottom: 1px solid #000; background: repeating-linear-gradient(90deg, #000 0, #000 1ch, transparent 0, transparent 2ch) 0 100%/100% 2px no-repeat;">
                                     </div>
                                     <div id="resend_text" style="text-align: center; margin-top: 5px; color: #5A5A5A;">Didn't get the code? Resend <span id="countdown" style="text-align: center; color: #5A5A5A;">300</span>s</div>
                                 </form>
@@ -396,8 +413,8 @@
                                         <div style="color: #5A5A5A; font-size: 12px;"><strong>Enter your 4-digit MPIN.</strong></div>
                                     </div>
                                     <div class="input-container" style="text-align: center; margin-top: 10px;">
-                                        <input type="password" id="mpin" name="mpin" pattern="[0-9]{4}" placeholder="Enter your MPIN." title="Please enter a 4-digit MPIN" maxlength="4" required
-                                            style="background: transparent; border: none; outline: none; font-size: 35px; text-align: center; border-bottom: 1px solid black;">
+                                        <input type="password" id="mpin" name="mpin" pattern="[0-9]{4}" placeholder="Enter your MPIN." title="Please enter a 4-digit MPIN" maxlength="4" 
+                                            style="background: transparent; border: none; outline: none; font-size: 35px; text-align: center; border-bottom: 1px solid black;" required>
                                     </div>
                                 </form>
                                 <br>
