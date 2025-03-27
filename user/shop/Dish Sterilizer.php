@@ -148,7 +148,7 @@ include '../components/connect.php';
                 
                     <a class="pname"href="product_display.php?id=' <?= $fetch_products['id']; ?> '">
                         
-                    <img src="../uploaded_img/<?= $fetch_products['image']; ?>" alt="">
+                    <img src="../../uploaded_img/<?= $fetch_products['image']; ?>" alt="">
                     <div class="des">
                             <div class="name"><?= $fetch_products['name']; ?>
                     </div>

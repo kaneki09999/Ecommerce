@@ -1,85 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Modal, Button } from 'react-bootstrap';
-import logo from '../assets/logo jobsync2.png';
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
-const TermsAndConditions = ({ show, onClose }) => {
-  const [isTextVisible, setIsTextVisible] = useState(false);
-  const lastParagraphRef = useRef(null); // Reference to the last paragraph
 
-  const handleVisibility = (entries) => {
-    const entry = entries[0];
-    setIsTextVisible(entry.isIntersecting);
-  };
-
-  useEffect(() => {
-    if (show) { // Only set up observer when modal is shown
-      const observer = new IntersectionObserver(handleVisibility, {
-        root: null, // observing relative to the viewport
-        threshold: 0.8, // 80% of the element is visible
-      });
-
-      if (lastParagraphRef.current) {
-        observer.observe(lastParagraphRef.current);
-      }
-
-      // Clean up observer when modal is hidden or component is unmounted
-      return () => {
-        if (lastParagraphRef.current) {
-          observer.unobserve(lastParagraphRef.current);
-        }
-      };
-    }
-  }, [show]); // This effect runs every time 'show' changes
-
-  // Reset the visibility state when the modal closes
-  useEffect(() => {
-    if (!show) {
-      setIsTextVisible(false); // Reset the button state when modal is closed
-    }
-  }, [show]);
-
-  return (
-    <Modal
-      show={show}
-      onHide={onClose}
-      size="lg"
-      centered
-      backdrop="static"
-      keyboard={false}
-    >
-      <Modal.Header style={{ backgroundColor: '#1863b9' }} closeButton={false}>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <img
-            src={logo}
-            alt="Logo"
-            style={{ width: '60px', height: '60px', marginRight: '10px' }}
-          />
-          <Modal.Title style={{ color: 'white' }}>Terms and Conditions</Modal.Title>
-        </div>
-      </Modal.Header>
-      <Modal.Body
-        style={{
-          padding: '20px 40px',
-          maxHeight: '60vh',
-          overflowY: 'auto',
-          scrollBehavior: 'smooth',
-        }}
-      >
-        <h5>Effective Date: [Insert Date]</h5>
-        <p style={{ textAlign: 'justify' }}>
-          Welcome to JobSync: Advanced Recruitment Platform with Integrated Video Interviewing and Face ID
-          Verification ("JobSync"). By registering as an employer and using our platform, you agree to comply with and be
-          bound by these Terms and Conditions. Please read them carefully.
-        </p>
-
-        <h6>1. Acceptance of Terms</h6>
-        <p style={{ textAlign: 'justify' }}>
-          By creating an employer account and posting job opportunities on JobSync, you acknowledge that you have read, understood, and agreed to
-          these Terms and Conditions. If you do not agree, please do not use our services.
-        </p>
-
-        -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- phpMyAdmin SQL Dump
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
@@ -871,27 +795,227 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
+/* Tables for Cleaning Appliances*/
 
-        <p ref={lastParagraphRef} style={{ textAlign: 'justify' }}>
-          By using JobSync, you confirm that you have read and agreed to these Terms and Conditions.
-        </p>
-      </Modal.Body>
-      <Modal.Footer style={{ justifyContent: 'center' }}>
-        <Button
-          variant="primary"
-          onClick={onClose}
-          disabled={!isTextVisible}
-          style={{
-            padding: '8px 30px',
-            fontSize: '1.1rem',
-            transition: 'opacity 0.3s ease',
-          }}
-        >
-          Agree
-        </Button>
-      </Modal.Footer>
-    </Modal>
-  );
-};
+CREATE TABLE `z_vacuum` (
+    `id` int(100) NOT NULL,
+    `name` varchar(255) NOT NULL,
+    `description` text NOT NULL,
+    `category` varchar(100) NOT NULL,
+    `price` int(25) NOT NULL,
+    `image` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-export default TermsAndConditions;
+CREATE TABLE `z_dishsterilizer` (
+    `id` int(100) NOT NULL,
+    `name` varchar(255) NOT NULL,
+    `description` text NOT NULL,
+    `category` varchar(100) NOT NULL,
+    `price` int(25) NOT NULL,
+    `image` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `z_insectsterilizer` (
+    `id` int(100) NOT NULL,
+    `name` varchar(255) NOT NULL,
+    `description` text NOT NULL,
+    `category` varchar(100) NOT NULL,
+    `price` int(25) NOT NULL,
+    `image` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/* Tables for Kitchen Appliances*/
+
+CREATE TABLE `z_refrigerator` (
+    `id` int(100) NOT NULL,
+    `name` varchar(255) NOT NULL,
+    `description` text NOT NULL,
+    `category` varchar(100) NOT NULL,
+    `price` int(25) NOT NULL,
+    `image` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `z_coffeemaker` (
+    `id` int(100) NOT NULL,
+    `name` varchar(255) NOT NULL,
+    `description` text NOT NULL,
+    `category` varchar(100) NOT NULL,
+    `price` int(25) NOT NULL,
+    `image` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `z_airfryer_ovens` (
+    `id` int(100) NOT NULL,
+    `name` varchar(255) NOT NULL,
+    `description` text NOT NULL,
+    `category` varchar(100) NOT NULL,
+    `price` int(25) NOT NULL,
+    `image` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `z_blender_mixers` (
+    `id` int(100) NOT NULL,
+    `name` varchar(255) NOT NULL,
+    `description` text NOT NULL,
+    `category` varchar(100) NOT NULL,
+    `price` int(25) NOT NULL,
+    `image` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/* Tables for Laundry Appliances*/
+
+CREATE TABLE `z_washingmachine` (
+    `id` int(100) NOT NULL,
+    `name` varchar(255) NOT NULL,
+    `description` text NOT NULL,
+    `category` varchar(100) NOT NULL,
+    `price` int(25) NOT NULL,
+    `image` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `z_dryer` (
+    `id` int(100) NOT NULL,
+    `name` varchar(255) NOT NULL,
+    `description` text NOT NULL,
+    `category` varchar(100) NOT NULL,
+    `price` int(25) NOT NULL,
+    `image` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `z_irons` (
+    `id` int(100) NOT NULL,
+    `name` varchar(255) NOT NULL,
+    `description` text NOT NULL,
+    `category` varchar(100) NOT NULL,
+    `price` int(25) NOT NULL,
+    `image` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/* Tables for Climate Control Appliances*/
+
+CREATE TABLE `z_airconditioners` (
+    `id` int(100) NOT NULL,
+    `name` varchar(255) NOT NULL,
+    `description` text NOT NULL,
+    `category` varchar(100) NOT NULL,
+    `price` int(25) NOT NULL,
+    `image` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `z_heater` (
+    `id` int(100) NOT NULL,
+    `name` varchar(255) NOT NULL,
+    `description` text NOT NULL,
+    `category` varchar(100) NOT NULL,
+    `price` int(25) NOT NULL,
+    `image` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `z_fans` (
+    `id` int(100) NOT NULL,
+    `name` varchar(255) NOT NULL,
+    `description` text NOT NULL,
+    `category` varchar(100) NOT NULL,
+    `price` int(25) NOT NULL,
+    `image` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/* Tables for Multimedia Appliances*/
+
+CREATE TABLE `z_television` (
+    `id` int(100) NOT NULL,
+    `name` varchar(255) NOT NULL,
+    `description` text NOT NULL,
+    `category` varchar(100) NOT NULL,
+    `price` int(25) NOT NULL,
+    `image` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `z_audiosystem` (
+    `id` int(100) NOT NULL,
+    `name` varchar(255) NOT NULL,
+    `description` text NOT NULL,
+    `category` varchar(100) NOT NULL,
+    `price` int(25) NOT NULL,
+    `image` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `z_gameconsole` (
+    `id` int(100) NOT NULL,
+    `name` varchar(255) NOT NULL,
+    `description` text NOT NULL,
+    `category` varchar(100) NOT NULL,
+    `price` int(25) NOT NULL,
+    `image` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+
+
+
+CREATE TABLE `datas` (
+    `no` int(11) NOT NULL,
+    `firstname` varchar(25) NOT NULL,
+    `middlename` varchar(25) NOT NULL,
+    `lastname` varchar(25) NOT NULL,
+    `phonenumber` float(25) NOT NULL,
+    `gender` varchar(25) NOT NULL,
+    `birthdate` date NOT NULL,
+    `age` int(25) NOT NULL,
+    `street` varchar(100) NOT NULL,
+    `city` varchar(100) NOT NULL,
+    `province` varchar(100) NOT NULL,
+    `barangay` varchar(100) NOT NULL,
+    `username` varchar(100) NOT NULL,
+    `email` varchar(100) NOT NULL,
+    `password` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+
+ALTER TABLE `datas`
+    ADD PRIMARY KEY (`no`);
+
+ALTER TABLE `datas`
+    MODIFY `no` int(11) NOT NULL AUTO_INCREMENT;
+
+CREATE TRIGGER `for_user_data` AFTER INSERT ON `datas` FOR EACH ROW 
+INSERT INTO `users`(`no`, `firstname`, `lastname`, `email`, `phonenumber`, `username`, `password`) 
+VALUES (NEW.no, NEW.firstname, NEW.lastname, NEW.email, NEW.phonenumber, NEW.username, NEW.password);
+
+CREATE TRIGGER `delete_for_user_data` AFTER DELETE ON `datas` FOR EACH ROW 
+DELETE FROM `users`WHERE OLD.no = OLD.no;
+
+
+SET GLOBAL event_scheduler="ON";
+
+CREATE EVENT delete_incomplete_rows_event
+ON SCHEDULE EVERY 2 SECOND
+STARTS CURRENT_TIMESTAMP
+DO
+  DELETE FROM `datas` WHERE `firstname` = '' OR `lastname`='' OR `phonenumber`='' OR `gender`='' OR `birthdate`='' OR `age`=''
+  OR `street`='' OR `city`='' OR `province`='' OR `barangay`='' OR `username`='' OR `email`='' OR `password`='';
+
+
+CREATE EVENT delete_incomplete_rows_event_for_user
+ON SCHEDULE EVERY 2 SECOND
+STARTS CURRENT_TIMESTAMP
+DO
+  DELETE FROM `users` WHERE `firstname` = '' OR `lastname`='' OR `phonenumber`='' OR `username`='' OR `email`='' OR `password`='';
+
+
+
+-- INSERT INTO `z_washingmachine` (`id`, `name`, `description`, `category`, `price`, `image`) 
+-- VALUES  (1, `SpinMaster Pro`, `The SpinMaster Pro is engineered for ultimate performance with advanced spin technology. It ensures faster drying and a superior cleaning experience, saving time and energy with every wash. Perfect for those who value efficiency and innovation in their laundry routine.`, `Laundry Appliances`, 3000, `washing2.jpg` ),
+--         (2, `CleanWave`, `CleanWave brings you a new era of gentle yet effective cleaning. Featuring a wave-like motion in the drum, this washing machine provides a deeper clean while being gentle on fabrics. Say goodbye to harsh chemicals and hello to eco-friendly, powerful washing.`, `Laundry Appliances`, 2500, `washing3.jpg` ),
+--         (3, `WashFusion`, `The WashFusion combines cutting-edge technology with multi-functional wash cycles, providing a perfect fusion of power and care. Whether you're washing delicates or heavy-duty loads, this machine adjusts its performance to suit your laundry needs.`, `Laundry Appliances`, 4000, `washing4.jpg` ),
+--         (4, `PureSpin`, `PureSpin delivers a high-quality wash with every load. Featuring a high-speed spin cycle, this washing machine ensures that your clothes are washed thoroughly, rinsed properly, and dried faster. Experience cleaner clothes with less water and energy usage.` , `Laundry Appliances`, 3500, `washing5.jpg`),
+--         (5, `EcoRinse`, `EcoRinse is designed with sustainability in mind, offering an eco-friendly wash cycle that reduces water usage and energy consumption. This machine is perfect for environmentally conscious consumers looking to minimize their carbon footprint without compromising on cleaning power.` , `Laundry Appliances`, 3000, `washing6.jpg`);
+
+    
+
+
+
+/*INSERT INTO users (no, firstname, lastname, email, phonenumber, username, password) VALUES (NEW.no, NEW.firstname, NEW.lastname, NEW.email, NEW.phonenumber, NEW.username, NEW.password)*/
