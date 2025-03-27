@@ -216,6 +216,12 @@ body {
     width: 36%;
   }
 
+  .modal-header {
+    color: white;
+    background-color: #B31B1B;
+    padding-left: 10%;
+    margin-left: 92%;
+  }
   .modal h2 {
     margin-bottom: 10px;
   }
@@ -239,7 +245,43 @@ body {
     cursor: pointer;
   }
 
+/* Add these styles to your existing CSS */
+#newModelId .modal-dialog {
+    max-width: 900px; /* Increased from default 400px */
+    width: 90%;
+}
 
+#newModelId .modal-content {
+    max-height: 90vh; /* Ensure modal doesn't exceed viewport height */
+    overflow-y: auto; /* Add scrolling if content is too tall */
+    max-width: 90vh;
+}
+#newModelId1 .modal-content {
+    max-height: 90vh; /* Ensure modal doesn't exceed viewport height */
+    overflow-y: auto; /* Add scrolling if content is too tall */
+    max-width: 90vh;
+}
+#newModelId2 .modal-content {
+    max-height: 90vh; /* Ensure modal doesn't exceed viewport height */
+    overflow-y: auto; /* Add scrolling if content is too tall */
+    max-width: 90vh;
+}
+
+#newModelId3 .modal-content {
+    max-height: 90vh; /* Ensure modal doesn't exceed viewport height */
+    overflow-y: auto; /* Add scrolling if content is too tall */
+    max-width: 90vh;
+}
+#newModelId .card {
+    width: 100%; /* Make card fill modal width */
+    margin-bottom: 20px; /* Reduced from 70px to save space */
+    padding: 20px;
+}
+
+#newModelId .input-container input {
+    width: 90%; /* Slightly wider input */
+    max-width: none; /* Remove any max-width restrictions */
+}
 
 
 /* Cart Total */

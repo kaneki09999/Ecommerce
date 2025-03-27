@@ -20,7 +20,11 @@ if (isset($_SESSION['no']) && isset($_SESSION['username'])) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;600;700&display=swap" rel="stylesheet">
-    
+    <!-- Add these in your head section -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body onload="generateOrderID();">
     
@@ -140,7 +144,6 @@ if (isset($_POST['order'])) {
     
 <section id="product1" class="section-p1">
     <section class="pro-container" style="padding-top: 0;">
-        asdasdsadsadsdds
             <?php
             if (isset($_GET['pid']) && isset($_SESSION['no'])) {
                 $product_id = $_GET['pid'];
@@ -206,56 +209,159 @@ if (isset($_POST['order'])) {
                                 $user_barangay = $user_info['barangay']; 
                         ?>
                          <form action="" method="POST">
-                                <div class="flex">
-                                    <div class="userinfo">
-                                        <div id="head1">
-                                            <h4>Place Your Orders</h4>
-                                        </div>
-                                
-                                    <div class="inputBox">
-                                        <input type="text" name="name" placeholder="<?= $user_firstname; ?> <?= $user_lastname; ?>" class="box" maxlength="20" required readonly> 
-                                    </div>
-                                    <div class="inputBox">
-                                        <input type="number" name="number" placeholder="<?= $user_number; ?>" class="box" min="0" max="9999999999" onkeypress="if(this.value.length == 10) return false;" required readonly>
-                                    </div>
-                                    <div class="inputBox">
-                                        <input type="email" name="email" placeholder="<?= $user_email; ?>" class="box" maxlength="50" required readonly>
-                                    </div>
-                                    <div class="inputBox">
-                                        <select name="method" class="box" required>
-                                        <option value="cash on delivery">CASH ON DELIVERY</option>
-                                        <option value="credit card">CREDIT CARD</option>
-                                        <option value="paytm">PAYTM</option>
-                                        <option value="paypal">PAYPAL</option>
-                                        </select>
-                                    </div>
-                                    <div class="inputBox">
-                                        <input type="text" name="address" placeholder="<Input your Address>" class="box" maxlength="50" required >
-                                    </div>
-                                    <div class="inputBox">
-                                        <input type="text" name="street" placeholder="<?= $user_region; ?>, <?= $user_city; ?>, <?= $user_province; ?>, <?= $user_barangay; ?>" class="box" maxlength="50" required readonly>
-                                    </div>
+    <div class="flex">
+        <div class="userinfo">
+            <div id="head1">
+                <h4>Place Your Orders</h4>
+            </div>
 
-                                    <div class="inputBox">
-                                        <input type="hidden" name="order_id" id="order_id" placeholder="Order ID" class="box" readonly>
-                                    </div>
+            <div class="inputBox">
+                <input type="text" name="name" placeholder="<?= $user_firstname; ?> <?= $user_lastname; ?>" class="box" maxlength="20" required readonly>
+            </div>
+            <div class="inputBox">
+                <input type="number" name="number" placeholder="<?= $user_number; ?>" class="box" min="0" max="9999999999" onkeypress="if(this.value.length == 10) return false;" required readonly>
+            </div>
+            <div class="inputBox">
+                <input type="email" name="email" placeholder="<?= $user_email; ?>" class="box" maxlength="50" required readonly>
+            </div>
+            <div class="inputBox">
+                <select name="method" class="box" required onchange="togglePaymentOptions()">
+                <option value="cash on delivery">Cash on Delivery</option>
+                <option value="gcash">GCash</option> <!-- Changed value to 'gcash' -->
+                </select>
+            </div>
+            <div class="inputBox">
+                <input type="text" name="address" placeholder="<Input your Address>" class="box" maxlength="50" required>
+            </div>
+            <div class="inputBox">
+                <input type="text" name="street" placeholder="<?= $user_region; ?>, <?= $user_city; ?>, <?= $user_province; ?>, <?= $user_barangay; ?>" class="box" maxlength="50" required readonly>
+            </div>
 
-                                </div>
-                                                            <!-- Add hidden fields for order details -->
-                                <input type="hidden" name="order_id" value="<?= $order_id; ?>">
-                                <input type="hidden" name="pid" value="<?= $product_id; ?>">
-                                <input type="hidden" name="product_name" value="<?= $product_name; ?>">
-                                <input type="hidden" name="product_quantity" value="<?= $product_quantity; ?>">
-                                <input type="hidden" name="product_price" value="<?= $product_price; ?>">
-                                <input type="hidden" name="product_total" value="<?= $product_total; ?>">
+            <div class="inputBox">
+                <input type="hidden" name="order_id" id="order_id" placeholder="Order ID" class="box" readonly>
+            </div>
 
-                                <!-- Your existing submit button -->
-                                <input type="submit" name="order" class="btn1  <?= ($grand_total > 1) ? '' : 'disabled'; ?>"  onclick="alert('Please add items to the cart before proceeding.');return true; value="place order">
-                            </form>
-                               
+        </div>
+        <!-- Add hidden fields for order details -->
+        <input type="hidden" name="order_id" value="<?= $order_id; ?>">
+        <input type="hidden" name="pid" value="<?= $product_id; ?>">
+        <input type="hidden" name="product_name" value="<?= $product_name; ?>">
+        <input type="hidden" name="product_quantity" value="<?= $product_quantity; ?>">
+        <input type="hidden" name="product_price" value="<?= $product_price; ?>">
+        <input type="hidden" name="product_total" value="<?= $product_total; ?>">
+
+        <!-- Pay button for Gcash -->
+        <button type="button" id="proceed_to_payment_btn" name="btn_pay" 
+                style="width:70px; display:none;" class="btn btn-primary">Pay</button>
+        <img src="img/green_checkmark.png" id="payment_success_icon" style="display: none; height: 30px; margin-left: 10px;">
+
+        <!-- Place Order Button -->
+        <input type="submit" name="order" class="btn1 <?= ($grand_total > 1) ? '' : 'disabled'; ?>" 
+            id="placeOrderButton" 
+            onclick="if(<?= $grand_total ?> <= 1) { alert('Please add items to the cart before proceeding.'); return false; }" 
+            value="Place Order">
+
+    </div>
+</form>
+
+<!-- Gcash Modal -->
+<div id="gcashModal" style="display: none;">
+    <div class="modal-content">
+        <h4>Gcash Payment</h4>
+        <p>Complete your payment through Gcash to proceed with the order.</p>
+        <!-- Simulate payment completion -->
+        <button onclick="completePayment()">Complete Payment</button>
+    </div>
+</div>
+
+<script>
+// Toggle Pay button visibility based on payment method selection
+function togglePaymentOptions() {
+    const paymentMethod = document.querySelector('select[name="method"]').value;
+    const payButton = document.getElementById('proceed_to_payment_btn');
+    const placeOrderButton = document.getElementById('placeOrderButton');
+
+    console.log('Payment method selected:', paymentMethod); // For debugging
+    
+    if (paymentMethod === 'gcash') {
+        payButton.style.display = 'inline-block';
+        placeOrderButton.disabled = true;
+    } else {
+        payButton.style.display = 'none';
+        placeOrderButton.disabled = false;
+    }
+}
+
+// Initialize the form when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Set initial state
+    togglePaymentOptions();
+    
+    // Add change event listener
+    document.querySelector('select[name="method"]').addEventListener('change', togglePaymentOptions);
+    
+    // Pay button click handler
+    document.getElementById('proceed_to_payment_btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        console.log('Pay button clicked'); // Debugging
+        
+        // Check if jQuery is available
+        if (typeof jQuery !== 'undefined') {
+            console.log('jQuery is loaded');
+            $('#newModelId').modal('show');
+        } else {
+            console.error('jQuery is not loaded');
+        }
+    });
+});
+
+// Function to complete payment
+function completePayment() {
+    $('#newModelId3').modal('hide');
+    document.getElementById('payment_success_icon').style.display = 'inline';
+    document.getElementById('placeOrderButton').disabled = false;
+}
+</script>
+
+<style>
+    /* Modal styles */
+    #gcashModal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        background-color: #fff;
+        padding: 20px;
+        text-align: center;
+        border-radius: 10px;
+        width: 10000px;
+
+    }
+
+    .btn1 {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .btn1:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+</style>
 
 
-                        
                         <?php
                             }
                            } else {
@@ -371,6 +477,8 @@ if (isset($_POST['order'])) {
             subMenu.classList.toggle("open-menu");
         }
     </script>
+    <?php include 'gcashmodal.php'; ?>
+
 </body>
 </html>
 
